@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.29.3"/><link as="script" rel="preload" href="/webpack-runtime-a3c33503311539c768bb.js"/><link as="script" rel="preload" href="/framework-829971f509f3dac7ba0b.js"/><link as="script" rel="preload" href="/app-cb4fc92ef9ff63f316fd.js"/><link as="script" rel="preload" href="/component---src-pages-snowman-mdx-c24a1818703e56783b3b.js"/><link as="fetch" rel="preload" href="/page-data/snowman/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><h1>Hello</h1><h2>Random Utils</h2><h2>RandUtil</h2><pre><code class="language-tsx">import { IO } from &quot;fp-ts/IO&quot;;
+import * as I from &quot;fp-ts/IO&quot;;
+import * as A from &quot;fp-ts/Array&quot;;
+import * as O from &quot;fp-ts/Option&quot;;
+import * as Ra from &quot;fp-ts/Random&quot;;
+import { NonEmptyArray } from &quot;fp-ts/NonEmptyArray&quot;;
+import { pipe } from &quot;fp-ts/function&quot;;
+</code></pre><pre><code class="language-tsx">export const never = (): any =&gt; {
+  throw new Error(&quot;Never&quot;);
+};
+export const oneof = &lt;T, _&gt;(xs: NonEmptyArray&lt;IO&lt;T&gt;&gt;): IO&lt;T&gt; =&gt;
+  pipe(
+    Ra.randomInt(0, xs.length - 1),
+    I.chain((n) =&gt; pipe(A.lookup(n)(xs), O.getOrElse(never)))
+  );
+
+export const arrayOf = (min: number, max: number) =&gt; &lt;T, _&gt;(
+  gen: IO&lt;T&gt;
+): IO&lt;Array&lt;T&gt;&gt; =&gt;
+  pipe(
+    Ra.randomInt(min, max),
+    I.map((n) =&gt; pipe(A.replicate(n, gen), A.sequence(I.io))),
+    I.flatten
+  );
+</code></pre><pre><code class="language-tsx">
+type TransShape = {
+  states: readonly any[];
+  actions: Record&lt;any, { from: any; to: any }&gt;;
+};
+
+export type Tagged&lt;T&gt; = { [key in keyof T]: { tag: key } &amp; T[key] };
+export type Union&lt;T&gt; = T[keyof T];
+
+export type MkStates&lt;
+  Trans extends TransShape,
+  States extends Record&lt;Trans[&quot;states&quot;][number], any&gt;
+&gt; = Tagged&lt;States&gt;;
+
+export type MkActions&lt;
+  Trans extends TransShape,
+  Actions extends Record&lt;keyof Trans[&quot;actions&quot;], any&gt;
+&gt; = Tagged&lt;Actions&gt;;
+
+export type TransFns&lt;Trans extends TransShape, States, Actions&gt; = {
+  [key in keyof Actions]: (
+    state: States[Trans[&quot;actions&quot;][key][&quot;from&quot;][number]],
+    action: Omit&lt;Actions[key], &quot;tag&quot;&gt;
+  ) =&gt; States[Trans[&quot;actions&quot;][key][&quot;to&quot;][number]];
+};
+```;
+
+
+export const _frontmatter = {}
+</code></pre></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/snowman/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-232d7917be788ef56c17.js"],"app":["/app-cb4fc92ef9ff63f316fd.js"],"component---src-pages-404-js":["/component---src-pages-404-js-9bb51dc6286a1c1d4a07.js"],"component---src-pages-index-js":["/component---src-pages-index-js-0198e24e3746c7e015a3.js"],"component---src-pages-snowman-mdx":["/component---src-pages-snowman-mdx-c24a1818703e56783b3b.js"]};/*]]>*/</script><script src="/polyfill-232d7917be788ef56c17.js" nomodule=""></script><script src="/component---src-pages-snowman-mdx-c24a1818703e56783b3b.js" async=""></script><script src="/app-cb4fc92ef9ff63f316fd.js" async=""></script><script src="/framework-829971f509f3dac7ba0b.js" async=""></script><script src="/webpack-runtime-a3c33503311539c768bb.js" async=""></script></body></html>

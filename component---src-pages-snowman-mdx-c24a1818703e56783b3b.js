@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{"bK+V":function(n,t,e){"use strict";e.r(t),e.d(t,"_frontmatter",(function(){return p})),e.d(t,"default",(function(){return s}));var o=e("IKa1"),r=e("ITlK"),a=(e("r0ML"),e("V0Ug")),c=e("9Hst"),p={},u={_frontmatter:p};function s(n){var t=n.components,e=Object(r.a)(n,["components"]);return Object(a.b)("wrapper",Object(o.a)({},u,e,{components:t,mdxType:"MDXLayout"}),Object(a.b)(c.a,{mdxType:"Snowman"}))}s.isMDXComponent=!0}}]);
+//# sourceMappingURL=component---src-pages-snowman-mdx-c24a1818703e56783b3b.js.map
