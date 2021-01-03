@@ -1,0 +1,38 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn gen
+
+PATH: 
+  /home/mb/.opam/4.10.0/bin:/home/mb/.nix-profile/bin:/home/mb/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/mb/.yarn/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.19.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/mb/dev/test/blog/packages/lib/posts/hangman/package.json: Unexpected token g in JSON at position 137
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@blog/posts-hangman",
+    "private": true,
+    "version": "1.0.0",
+    "main": "src/index.tsx",
+    "license": "MIT",
+    "scripts": {gen: "ts-node -e 'console.log(1)'"}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

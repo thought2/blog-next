@@ -1,0 +1,13 @@
+{
+  "name": "blog",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "workspaces": [
+    "packages/**"
+  ],
+  "scripts": {
+    "build": "yarn workspace @blog/site build"
+  }
+}

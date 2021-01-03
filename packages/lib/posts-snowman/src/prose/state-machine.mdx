@@ -1,0 +1,27 @@
+```tsx
+
+type TransShape = {
+  states: readonly any[];
+  actions: Record<any, { from: any; to: any }>;
+};
+
+export type Tagged<T> = { [key in keyof T]: { tag: key } & T[key] };
+export type Union<T> = T[keyof T];
+
+export type MkStates<
+  Trans extends TransShape,
+  States extends Record<Trans["states"][number], any>
+> = Tagged<States>;
+
+export type MkActions<
+  Trans extends TransShape,
+  Actions extends Record<keyof Trans["actions"], any>
+> = Tagged<Actions>;
+
+export type TransFns<Trans extends TransShape, States, Actions> = {
+  [key in keyof Actions]: (
+    state: States[Trans["actions"][key]["from"][number]],
+    action: Omit<Actions[key], "tag">
+  ) => States[Trans["actions"][key]["to"][number]];
+};
+```;
