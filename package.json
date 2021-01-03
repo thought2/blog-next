@@ -8,6 +8,6 @@
     "packages/**"
   ],
   "scripts": {
-    "build": "yarn workspace @blog/site build"
+    "build": "yarn workspace @blog/site build; cp -r packages/app/site/public docs"
   }
 }
