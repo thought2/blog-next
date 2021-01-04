@@ -21,15 +21,21 @@ type CleanConst<T> = {
   -readonly [P in keyof T]: CleanConst<T[P]>;
 };
 
-export type MkStates<trans extends Trans, slices, states> = {
-  [key in keyof states]: Aux<slices, CleanConst<states>[key]>;
+export type MkStates_<trans extends Trans, slices, states> = {
+  [key in keyof states]: Aux<slices, states[key]>;
 };
+
+export type MkStates<trans extends Trans, slices, states> = MkStates_<
+  trans,
+  slices,
+  CleanConst<states>
+>;
 
 type Aux<lookup, keys> = keys extends [infer head, ...infer tail]
   ? lookup extends Record<head & string, unknown>
-    ? lookup[head & string] & Aux<lookup, tail>
+    ? { [key in head & string]: lookup[head & string] } & Aux<lookup, tail>
     : never
-  : never;
+  : {};
 
 export type MkActions<
   trans extends Trans,

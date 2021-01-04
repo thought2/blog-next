@@ -62,3 +62,4 @@ type Word = AlphaLetter[];
 type DiscAlphaLetter = { letter: AlphaLetter; disc: boolean };
 
 type DiscWord = DiscAlphaLetter[];
+
