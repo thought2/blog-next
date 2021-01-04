@@ -20,8 +20,6 @@ export default () => {
   const srcPath = "./src/prose";
   const targetPath = "./src/gen";
 
-  Fs.rmdirSync(targetPath, { recursive: true });
-
   const paths = Glob.sync(Path.join(srcPath, "**/*.mdx"));
 
   for (const path of paths) {

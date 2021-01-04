@@ -1,21 +1,8 @@
-import * as Self from "../gen/index";
-
-# Hello
-
-## Module: index.tsx
-
-### Imports
-
-```tsx
 import { Zipper } from "fp-ts-contrib/Zipper";
 import { AlphaLetter } from "./AlphaLetter";
 import * as StateMachine from "./state-machine";
 import * as TypeUtils from "./type-utils";
-```
 
-### Transitions
-
-```tsx
 // Transitions
 
 export const trans = {
@@ -29,15 +16,7 @@ export const trans = {
 } as const;
 
 type Trans = StateMachine.MkTrans<typeof trans>;
-```
 
-import StateTransGraph from "../ui/StateTransGraph";
-
-<StateTransGraph trans={Self.trans} />
-
-### States & State
-
-```tsx
 // States & State
 
 const states = {
@@ -50,11 +29,7 @@ const states = {
 type States = StateMachine.MkStates<Trans, Slices, typeof states>;
 
 type State = StateMachine.UnionFromObj<States>;
-```
 
-### Actions & Action
-
-```tsx
 // Actions & Action
 
 type Actions = StateMachine.MkActions<
@@ -68,11 +43,7 @@ type Actions = StateMachine.MkActions<
 >;
 
 type Action = StateMachine.UnionFromObj<Actions>;
-```
 
-### Slices
-
-```tsx
 // Slices
 
 type Slices = {
@@ -83,11 +54,7 @@ type Slices = {
   word: Word;
   tries: Set<AlphaLetter>;
 };
-```
 
-### Shorthands
-
-```tsx
 // Shorthands
 
 type Word = AlphaLetter[];
@@ -95,16 +62,3 @@ type Word = AlphaLetter[];
 type DiscAlphaLetter = { letter: AlphaLetter; disc: boolean };
 
 type DiscWord = DiscAlphaLetter[];
-```
-
-# Module RandomUtils
-
-import RandomUtils from "./randomUtils.mdx";
-
-<RandomUtils />
-
-# Module StateMachine
-
-import StateMachine from "./state-machine.mdx";
-
-<StateMachine />

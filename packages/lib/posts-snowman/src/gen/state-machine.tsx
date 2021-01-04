@@ -1,6 +1,3 @@
-## State Machine
-
-```tsx
 type Tagged<T> = { [key in keyof T]: { tag: key } & T[key] };
 
 type UnionFromTuple<T extends unknown[]> = T[number];
@@ -50,4 +47,4 @@ export type TransFns<
     state: states[UnionFromTuple<trans["actions"][key]["from"]>]
   ) => states[UnionFromTuple<trans["actions"][key]["to"]>];
 };
-```
+
