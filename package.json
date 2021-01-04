@@ -8,6 +8,7 @@
     "packages/**"
   ],
   "scripts": {
-    "build": "yarn workspace @blog/site build; cp -r packages/app/site/public dist"
+    "build": "yarn workspace @blog/site build; cp -r packages/app/site/public dist",
+    "start": "yarn workspace @blog/site start"
   }
 }
