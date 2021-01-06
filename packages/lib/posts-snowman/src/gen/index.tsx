@@ -1,7 +1,10 @@
 import { Zipper } from "fp-ts-contrib/Zipper";
+import * as Z from "fp-ts-contrib/Zipper";
 import { AlphaLetter } from "./AlphaLetter";
 import * as StateMachine from "./state-machine";
-import * as TypeUtils from "./type-utils";
+import * as Countdown from "./Countdown";
+import { match } from "ts-pattern";
+import * as S from "fp-ts/Set";
 
 // Transitions
 
@@ -23,7 +26,7 @@ const states = {
   Setup: ["roundsLeft", "words"],
   Playing: ["roundsLeft", "words", "tries", "discWord"],
   Won: ["roundsLeft", "words", "tries"],
-  Lost: ["roundsLeft", "words", "tries"],
+  Lost: ["words", "tries"],
 } as const;
 
 type States = StateMachine.MkStates<Trans, Slices, typeof states>;
@@ -34,6 +37,7 @@ type State = StateMachine.UnionFromObj<States>;
 
 type Actions = StateMachine.MkActions<
   Trans,
+  Slices,
   {
     Start: [];
     GuessWord: ["word"];
@@ -62,4 +66,41 @@ type Word = AlphaLetter[];
 type DiscAlphaLetter = { letter: AlphaLetter; disc: boolean };
 
 type DiscWord = DiscAlphaLetter[];
+
+// Transition Functions
+
+type TransTypes = StateMachine.TransTypes<Trans, States, Actions>;
+
+const match_ = <B, _ = any>() => <A, _ = any>(value: A) => match<A, B>(value);
+
+const transFn: StateMachine.TransFns<Trans, States, Actions> = {
+  Start: () => ({ words, roundsLeft }) => ({
+    tag: "Playing",
+    words,
+    discWord: [],
+    tries: S.empty,
+    roundsLeft,
+  }),
+
+  GuessWord: ({ word }) => ({ words, tries, roundsLeft }) =>
+    match_<TransTypes["GuessWord"]["to"]>()({
+      isMatch: word === Z.extract(words),
+    })
+      .with({ isMatch: true }, ({}) => ({
+        tag: "Won" as const,
+        roundsLeft,
+        words,
+        tries,
+      }))
+      .with({ isMatch: false }, ({}) => ({
+        tag: "Lost" as const,
+        words,
+        tries,
+      }))
+      .run(),
+
+  GuessLetter: () => (st) => st as any,
+
+  Reset: () => (st) => st as any,
+};
 

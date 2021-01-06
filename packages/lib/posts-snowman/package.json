@@ -16,6 +16,7 @@
   "dependencies": {
     "dagre": "^0.8.5",
     "dagre-reactjs": "^0.1.4",
-    "fp-ts-contrib": "^0.1.21"
+    "fp-ts-contrib": "^0.1.21",
+    "ts-pattern": "^1.1.0"
   }
 }

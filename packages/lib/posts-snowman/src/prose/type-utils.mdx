@@ -1,9 +1,0 @@
-```tsx
-export type CleanConst<T> = {
-  -readonly [P in keyof T]: CleanConst<T[P]>;
-};
-
-export type TupleToIntersection<T> = T extends [infer head, ...infer tail]
-  ? head & TupleToIntersection<tail>
-  : {};
-```

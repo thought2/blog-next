@@ -3,38 +3,30 @@
 ```tsx
 type Tagged<T> = { [key in keyof T]: { tag: key } & T[key] };
 
-type UnionFromTuple<T extends unknown[]> = T[number];
+type UnionFromTuple<T extends readonly unknown[]> = T[number];
 
 export type UnionFromObj<T> = T[keyof T];
 
 type PayloadOf<T> = Omit<T, "tag">;
 
 type Trans = {
-  states: any[];
-  actions: Record<any, { from: any[]; to: any[] }>;
+  states: readonly any[];
+  actions: Record<any, { from: readonly any[]; to: readonly any[] }>;
 };
 
 type States<trans extends Trans> = Record<UnionFromTuple<trans["states"]>, any>;
 
 type Actions<trans extends Trans> = Record<keyof trans["actions"], any>;
 
-export type MkTrans<T> = CleanConst<T>;
+export type MkTrans<T> = T;
 
-type CleanConst<T> = {
-  -readonly [P in keyof T]: CleanConst<T[P]>;
-};
-
-export type MkStates_<trans extends Trans, slices, states> = {
-  [key in keyof states]: Aux<slices, states[key]>;
-};
-
-export type MkStates<trans extends Trans, slices, states> = MkStates_<
-  trans,
-  slices,
-  CleanConst<states>
+export type MkStates<trans extends Trans, slices, states> = Tagged<
+  {
+    [key in keyof states]: Aux<slices, states[key]>;
+  }
 >;
 
-type Aux<lookup, keys> = keys extends [infer head, ...infer tail]
+type Aux<lookup, keys> = keys extends readonly [infer head, ...infer tail]
   ? lookup extends Record<head & string, unknown>
     ? { [key in head & string]: lookup[head & string] } & Aux<lookup, tail>
     : never
@@ -42,8 +34,9 @@ type Aux<lookup, keys> = keys extends [infer head, ...infer tail]
 
 export type MkActions<
   trans extends Trans,
+  slices,
   actions extends Actions<trans>
-> = Tagged<actions>;
+> = Tagged<{ [key in keyof actions]: Aux<slices, actions[key]> }>;
 
 export type TransFns<
   trans extends Trans,
@@ -55,5 +48,17 @@ export type TransFns<
   ) => (
     state: states[UnionFromTuple<trans["actions"][key]["from"]>]
   ) => states[UnionFromTuple<trans["actions"][key]["to"]>];
+};
+
+export type TransTypes<
+  trans extends Trans,
+  states extends States<trans>,
+  actions extends Actions<trans>
+> = {
+  [key in keyof actions]: {
+    payload: PayloadOf<actions[key]>;
+    from: states[UnionFromTuple<trans["actions"][key]["from"]>];
+    to: states[UnionFromTuple<trans["actions"][key]["to"]>];
+  };
 };
 ```
